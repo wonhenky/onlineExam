@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"	xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>在线考试系统首页</title>
+    <!-- Bootstrap core CSS -->
+    <link href="#" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?h=3a470b077af1acaa053e6b67bb7560eb">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+</head>
+<body>
+<!--examnav-->
+<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
+    <div th:replace="commons/bar::#examnav(activeUri='/exam/toHome')"></div>
+</nav>
+<main class="page contact-page">
+    <section class="portfolio-block contact">
+<div class="container">
+
+    <div class="jumbotron">
+        <h1><p class="text success" th:text="${session.loger.getStudentName()}"></p></h1>
+        <h2><p class="lead">欢迎你的到来，祝您考试愉快</p></h2>
+    </div>
+
+    <div class="row marketing">
+        <div class="col-lg-6">
+            <h4>考试宣言一</h4>
+            <p>认认真真考试，堂堂正正做人</p>
+
+            <h4>考试宣言二</h4>
+            <p>会考号角声声急，是谁又催千里马;夺魁战鼓阵阵高，看我更上一层楼</p>
+
+            <h4>考试宣言三</h4>
+            <p>拼搏，以有限时间挑战内在的潜力；奋斗，用不懈努力铸就无悔的青春</p>
+        </div>
+
+        <div class="col-lg-6">
+            <h4>系统优点一</h4>
+            <p>已存在java、python、c等多类试题、试卷</p>
+
+            <h4>系统优点二</h4>
+            <p>方便快捷查询分类、可以自行添加试题、添加试卷</p>
+
+            <h4>系统优点三</h4>
+            <p>多角色，自动阅卷，考试记录存档</p>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+    </section>
+</main>
+<!--footer-->
+<div th:replace="commons/bar::footer"></div>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+<script src="assets/js/theme.js"></script>
+</body>
+</html>

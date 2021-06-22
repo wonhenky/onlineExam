@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+<link rel="stylesheet" href="assets/css/Bootstrap-4---Table-Fixed-Header.css">
+<link rel="stylesheet" href="assets/css/Features-Blue.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+<link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+<link rel="stylesheet" href="assets/css/Projects-Clean.css">
+<link rel="stylesheet" href="assets/css/sidebar-1.css">
+<link rel="stylesheet" href="assets/css/sidebar.css">
+<body>
+<!--<div class="login-clean" style="background: rgba(252,241,241,0);">-->
+<div class="login-clean">
+    <h1>欢迎登陆在线考试系统</h1>
+    <form action="LoginServlet" th:action="@{/foreLogin/check}" method="post">
+        <div class="row">
+            <div class="form-group col-lg-4 input-group input-group-lg">
+                <h3 class="form-signin-heading">登录考试</h3>
+            </div>
+        </div>
+        <div class="illustration"><i class="far fa-user" style="color: rgb(14,160,255);"></i></div>
+        <div class="form-group">
+            <input type="text" id="username" class="form-control" required autofocus name="studentAccount" placeholder="用户名" />
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="password" name="password" placeholder="密码" required name="studentPwd"/>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block" type="submit" style="background: rgb(14,160,255);" onclick="dologin()">登陆</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

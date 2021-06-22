@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"	xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>在线考试系统试卷记录</title>
+    <!-- Bootstrap core CSS -->
+    <link href="#" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?h=3a470b077af1acaa053e6b67bb7560eb">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+</head>
+<body>
+<!--examnav-->
+<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
+    <div th:replace="commons/bar::#examnav(activeUri='/exam/toHome')"></div>
+</nav>
+<main class="page contact-page">
+    <section class="portfolio-block contact">
+<div class="container">
+    <div align="center"  th:if="${records.isEmpty()==true}">
+        <h1 th:text="还没有考试记录"></h1>
+        <a th:href="@{/exam/toExam}">去考试</a>
+    </div>
+    <div class="card-body" th:if="${records.isEmpty()!=true}">
+<!--        <div class="card-sub">-->
+<!--            考试记录<code class="highlighter-rouge">汇总</code>-->
+<!--        </div>-->
+        <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">考试名称</th>
+                <th scope="col">正确率</th>
+                <th scope="col">得分</th>
+                <th scope="col">提交时间</th>
+                <th scope="col">详细</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rec,recStat:${records}">
+                <td th:text="${recStat.count}"></td>
+                <td th:text="${rec.recordName}"></td>
+                <td th:text="${rec.recordAcc}"></td>
+                <td th:text="${rec.recordScore}"></td>
+                <td th:text="${rec.recordData}"></td>
+                <td><a class="btn btn-sm btn-info" th:href="@{/record/toShowExamHist/}+${rec.recordId}">详情</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div> <!-- /container -->
+    </section>
+</main>
+<!--footer-->
+<div th:replace="commons/bar::footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+<script src="assets/js/theme.js"></script>
+</body>
+
+</html>

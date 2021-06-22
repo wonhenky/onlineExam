@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"	xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>在线考试系统首页</title>
+    <!-- Bootstrap core CSS -->
+    <link href="#" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?h=3a470b077af1acaa053e6b67bb7560eb">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+<!--    <script type="text/javascript">-->
+<!--        window.onload = function(){-->
+<!--            const nowDate = new Date();-->
+<!--            let str = nowDate.getFullYear()+"-"+(nowDate.getMonth() + 1)+"-"+nowDate.getDate()+":"+(nowDate.getHours()+":"+nowDate.getMinutes());-->
+<!--            document.getElementById("record_data").value=str;-->
+<!--        }-->
+<!--    </script>-->
+</head>
+<!--禁止复制-->
+<body oncontextmenu="return false" onselectstart="return false">
+<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
+    <div th:replace="commons/bar::#examnav(activeUri='/exam/toHome')">
+    </div>
+</nav>
+<main class="page contact-page">
+
+<!--    修改过属性max-width:1200px-->
+    <section class="portfolio-block contact">
+<!--    <section class="portfolio-block contact">-->
+<!--    <div class="container">-->
+<!--        <div id="timemchine" class="alert alert-success col-5 fixedNav fixed-top " style="margin: 0px;margin-top: 159px;margin-left: 93px;width: 306px;" role="alert"-->
+<!--             th:text="'现 在 时 间 :'+${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}+'&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--             结 束 时 间 :'+${#dates.format(examById.examEnd, 'yyyy-MM-dd hh:mm:ss')}+'&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--             温馨提示：错选漏选不得分，提交后不可再次答题,请在规定时间内提交试卷.'">-->
+
+<!--        </div>-->
+
+<!--        </div>-->
+    <div class="row">
+<!--        <div class="col-md-3"></div>-->
+        <form th:action="@{/exam/submitExam}" method="post">
+            <div align="center"><h1 th:text="${paperName.getPaperName()}"></h1></div>
+            <div class="col-md-10 text-warning" th:text="'单选题:'+${questionPapers.get(0).paper.getScoreSin()}+'分/个；多选题:'+${questionPapers.get(0).paper.getScoreChe()}+'分/个；判断题:'+${questionPapers.get(0).paper.getScoreJug()}+'分/个'"></div>
+            <input type="text" name="record_data" id="record_data" value="" style=" display:none">
+            <!--提交试卷id，学生id-->
+            <input type="hidden" name="paperId" th:each="qb,qbStat:${questionPapers}" th:value="${qb.paperId}">
+            <input type="hidden" name="studentId" th:value="${session.loger.studentId}">
+            <div>
+                <div class="row form-check" th:each="qb,qbStat:${questionPapers}">
+                    <div class="col-xs-12 col-lg-12">
+                        <!--分三种题型显示以及提交值-->
+                        <label th:if="${qb.question.questionType=='y'}" th:text="${qbStat.count}+'.('+'多选题'+')'+${qb.question.questionName}+'（ ）'"></label><br>
+                        <label th:if="${qb.question.questionType!='y'}" th:text="${qbStat.count}+'.'+${qb.question.questionName}+'（ ）'"></label>
+                        <br th:if="${qb.question.questionType!='y'}">
+                        <label class="form-radio-label" th:if="${qb.question.questionType=='x'}">
+                            <input class="form-radio-input" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="A">
+                            <span class="form-radio-sign" th:text="'A.'+${qb.question.getQuestionOpa()}"></span>&emsp;&emsp;
+                            <input class="form-radio-input" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="B">
+                            <span class="form-radio-sign" th:text="'B.'+${qb.question.getQuestionOpb()}"></span>&emsp;&emsp;
+                            <input class="form-radio-input" th:if="${qb.question.getQuestionOpc()}!=null" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="C">
+                            <span class="form-radio-sign" th:if="${qb.question.getQuestionOpc()}!=null"  th:text="'C.'+${qb.question.getQuestionOpc()}"></span>&emsp;&emsp;
+                            <input class="form-radio-input" th:if="${qb.question.getQuestionOpd()}!=null" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="D">
+                            <span class="form-radio-sign" th:if="${qb.question.getQuestionOpd()}!=null"  th:text="'D.'+${qb.question.getQuestionOpd()}"></span><br>
+                        </label>
+                        <label class="form-radio-label" th:if="${qb.question.questionType=='y'}">
+                            <input class="form-radio-input" type="checkbox" th:name="'optionsSelect'+${qb.question.questionId}" value="A">
+                            <span class="form-radio-sign" th:text="'A.'+${qb.question.getQuestionOpa()}"></span>&emsp;&emsp;
+                            <input class="form-radio-input" type="checkbox" th:name="'optionsSelect'+${qb.question.questionId}" value="B">
+                            <span class="form-radio-sign" th:text="'B.'+${qb.question.getQuestionOpb()}"></span>&emsp;&emsp;
+                            <input class="form-radio-input"  type="checkbox" th:name="'optionsSelect'+${qb.question.questionId}" value="C">
+                            <span class="form-radio-sign" th:text="'C.'+${qb.question.getQuestionOpc()}"></span>&emsp;&emsp;
+                            <input class="form-radio-input"  type="checkbox" th:name="'optionsSelect'+${qb.question.questionId}" value="D">
+                            <span class="form-radio-sign" th:text="'D.'+${qb.question.getQuestionOpd()}"></span><br>
+                        </label>
+                        <label class="form-radio-label" th:if="${qb.question.questionType=='z'}">
+                            <input class="form-radio-input" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="T">
+                            <span class="form-radio-sign" th:text="${qb.question.getQuestionOpa()}"></span><br>
+                            <input class="form-radio-input" type="radio" th:name="'optionsSelect'+${qb.question.questionId}" value="F">
+                            <span class="form-radio-sign" th:text="${qb.question.getQuestionOpb()}"></span><br>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div align="center"><button id="submit" onclick="return display_confirm()" class="btn btn-success" th:text="提交"></button></div>
+        </form>
+    </div>
+    <!--footer-->
+
+</div> <!-- /container -->
+    </section>
+</main>
+<div th:replace="commons/bar::footer"></div>
+<script src="assets/js/core/jquery.3.2.1.min.js" th:src="@{/webjars/jquery/3.2.1/jquery.js}"></script>
+<script type="text/javascript">
+        $(function () {
+            setInterval(function () {
+                $("#timemchine").load(location.href + " #timemchine");
+            }, 1000);
+
+        })
+        function display_confirm()
+        {
+            let r=confirm("确定要提交试卷么？")
+            if (r==true) {
+                const nowDate = new Date();
+                let str = nowDate.getFullYear()+"-"+(nowDate.getMonth() + 1)+"-"+nowDate.getDate()+":"+(nowDate.getHours()+":"+nowDate.getMinutes());
+                document.getElementById("record_data").value=str;
+            }
+            else {
+                return false;
+            }
+        }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+<script src="assets/js/theme.js"></script>
+</body>
+</html>

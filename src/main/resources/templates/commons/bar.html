@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <meta charset="UTF-8">
+    <title>公共页面抽取</title>
+    <link href="#" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css?h=3a470b077af1acaa053e6b67bb7560eb">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+
+</head>
+<body>
+
+<!--header-->
+<div class="main-header" th:fragment="header">
+    <div class="logo-header">
+        <div class="page-header">
+            <h5 th:href="@{/index}">在线考试系统<small>后台</small></h5>
+        </div>
+
+        <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+
+    </div>
+
+    <nav class="navbar navbar-header navbar-expand-md">
+        <div class="container-fluid">
+
+            <form class="navbar-left navbar-form nav-search mr-md-2" action="">
+                <td><span class="h4">考试无忧</span>  <i class="la la-flag-checkered"></i></td>
+            </form>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <u th:if="${session.logerd!=null}">
+                                <h6><span class="la la-forumbee text-info" th:if="${session.logerd.power}==0" th:text="教师"></span></h6>
+                                <h6><span class="la la-gavel text-success" th:if="${session.logerd.power}==1" th:text="管理员"></span></h6>
+                            </u>
+                        </div>
+                        <div class="col-md-4">
+                            <k th:if="${session.logerd!=null}">
+                                <h6><span class="text-warning" th:text="${session.logerd.teacherName}"></span></h6>
+                            </k>
+                        </div>
+                        <!--解决项目路径问题-->
+                        <base th:href="${#request.getContextPath()}+'/'">
+                        <div class="col-md-2">
+                            <a class="btn btn-danger" href="#" th:href="@{/logout}">Logout</a>
+                        </div>
+                    </div>
+        </div>
+    </nav>
+</div>
+
+
+<!--slidebar-->
+<div class="sidebar" id="sidebar">
+    <div class="scrollbar-inner sidebar-wrapper">
+        <div class="user">
+            <div class="photo">
+<!--                <img th:src="${static.assets.img}" src="#">-->
+            </div>
+            <div class="info">
+                <a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+                </a>
+            </div>
+        </div>
+<!--        <td>-->
+<!--            <u th:if="${session.logerd.power==1}">-->
+<!--                <a class="btn btn-sm btn-info" th:href="@{/student/}+${stu.studentId}">编辑</a>-->
+<!--                <button th:attr="del_uri=@{/student/deleteStudent/}+${stu.studentId}" class="btn btn-sm btn-danger deleteBtn">删除</button>-->
+<!--            </u>-->
+<!--        </td>-->
+        <ul class="nav">
+            <li class="nav-item" th:if="${session.logerd.power==1}" th:class="${activeUri=='/student/getAllStudent'?'nav-item active':'nav-item'}">
+                <a class="nav-link active" href="#" th:href="@{/student/getAllStudent}">
+                    <i class="la la-child"></i>
+                    <p>学生管理</p>
+                </a>
+            </li>
+            <li class="nav-item" th:if="${session.logerd.power==1}" th:class="${activeUri=='/teacher/getAllTeacher'?'nav-item active':'nav-item'}">
+                <a class="nav-link" href="#" th:href="@{/teacher/getAllTeacher}">
+                    <i class="la la-male"></i>
+                    <p>教师管理</p>
+                </a>
+            </li>
+            <li class="nav-item" th:if="${session.logerd.power==1}" th:class="${activeUri=='/classe/getAllClasse'?'nav-item active':'nav-item'}">
+                <a class="nav-link" href="#" th:href="@{/classe/getAllClasse}">
+                    <i class="la la-th-large"></i>
+                    <p>班级管理</p>
+                </a>
+            </li>
+            <li class="nav-item" th:if="${session.logerd.power==0}" th:class="${activeUri=='/question/getAllQuestion'?'nav-item active':'nav-item'}">
+                <a class="nav-link" href="#" th:href="@{/question/getAllQuestion}">
+                    <i class="la la-subscript"></i>
+                    <p>试题管理</p>
+                </a>
+            </li>
+            <li class="nav-item" th:if="${session.logerd.power==0}" th:class="${activeUri=='/paper/getAllPaper'?'nav-item active':'nav-item'}">
+                <a class="nav-link" href="#" th:href="@{/paper/getAllPaper}">
+                    <i class="la la-th"></i>
+                    <p>试卷管理</p>
+                </a>
+            </li>
+            <li class="nav-item" th:if="${session.logerd.power==0}" th:class="${activeUri=='/exam/getAllExam'?'nav-item active':'nav-item'}">
+                <a class="nav-link" href="#" th:href="@{/exam/getAllExam}">
+                    <i class="la la-map"></i>
+                    <p>考试管理</p>
+                </a>
+            </li>
+            <li class="nav-item" th:if="${session.logerd.power==0}" th:class="${activeUri=='/record/getAllRecord'?'nav-item active':'nav-item'}">
+                <a class="nav-link" href="#" th:href="@{/record/getAllRecord}">
+                    <i class="la la-sitemap"></i>
+                    <p>记录管理</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<footer class="page-footer" style="margin: 0px;">
+    <footer class="page-footer gradient" style="margin: 0px;">
+        <div class="container">
+
+            <div class="links"><a th:href="@{/}">OnlineExam©️</a><a href="#">17180600220</a><a href="#">王恒凯</a></div>
+            <div class="social-icons"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-instagram-outline"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a></div>
+        </div>
+    </footer>
+</footer>
+    <div id="examnav" th:fragment="examnav" class="container"><a class="navbar-brand logo" th:href="@{/}">在线考试系统</a>
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link active" th:href="@{/exam/toHome}" href="#" disabled="">首页</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{'/exam/toExam/'+${session.loger.studentId}}">考试</a></li>
+<!--                <li class="nav-item"><a class="nav-link" th:href="@{'/exam/toExam/'}">考试</a></li>-->
+                <li class="nav-item"><a class="nav-link" th:href="@{'/exam/toHist/'+${session.loger.studentId}}">记录</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" th:text="${session.loger.getStudentAccount()}" th:href="@{/student/simple/}+${session.loger.studentId}"></a></li>
+                <li class="nav-item"><a class="nav-link active" href="#" th:href="@{/logout}">注销</a></li>
+            </ul>
+        </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+<script src="/assets/js/theme.js?h=4e0250612cb0b1aba8835335a87f4f23"></script>
+</body>
+</html>

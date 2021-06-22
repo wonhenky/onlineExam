@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"	xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>学生信息编辑</title>
+    <!-- Bootstrap core CSS -->
+    <link href="#" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?h=3a470b077af1acaa053e6b67bb7560eb">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+</head>
+<body>
+<!--examnav-->
+<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
+    <div th:replace="commons/bar::#examnav(activeUri='/exam/toHome')"></div>
+</nav>
+<main class="page contact-page">
+    <section class="portfolio-block contact">
+        <div class="container">
+            <div class="main-panel">
+                <div class="content">
+                    <div class="container-fluid" align="center">
+                        <h4 class="page-title">学生管理页面</h4>
+                        <div class="col-md-6">
+                            <form th:action="@{/student/simpleEditStudent}" method="put">
+                                <input type="hidden" name="studentId" th:value="${student.studentId}">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="name">姓名</label>
+                                            <input class="form-control" th:value="${student.studentName}" disabled="disabled">
+                                            <input type="hidden" class="form-control" id="name" name="studentName" th:value="${student.studentName}" placeholder="姓名">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">账号</label>
+                                            <input type="text" class="form-control" id="account" name="studentAccount" th:value="${student.studentAccount}" placeholder="账号">
+                                            <small id="accounthelp" class="form-text text-muted"></small>
+                                        </div>
+                                        <div class="form-check">
+                                            <label for="name">性别:</label>
+                                            <label for="name" th:text="${student.studentGender==1?'女':'男'}">性别</label>
+                                            <select class="form-control" name="studentGender" th:hidden="true">
+                                                <option th:selected="${student.studentGender==1}" th:text="男" th:value="1"></option>
+                                                <option th:selected="${student.studentGender==0}" th:text="女" th:value="0"></option>
+                                            </select>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">邮箱</label>
+                                            <input type="email" class="form-control" id="email" name="studentEmail" th:value="${student.studentEmail}" placeholder="Enter Email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password">密码</label>
+                                            <input type="password" class="form-control" id="password" name="studentPwd" th:value="${student.studentPwd}" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <!--由数据库中查询出来-->
+                                            <label>班级</label>
+                                            <select class="form-control" disabled="disabled">
+                                                <option th:each="cla:${classes}" th:selected="${cla.classeId==student.classeId}" th:text="${cla.classeName}" th:value="${cla.classeId}"></option>
+                                            </select>
+                                            <select type="hidden" class="form-control" name="classeId" th:hidden="true">
+                                                <option th:each="cla:${classes}" th:selected="${cla.classeId==student.classeId}" th:text="${cla.classeName}" th:value="${cla.classeId}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="card-action" align="center">
+                                        <button class="btn btn-success">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </section>
+</main>
+<!--footer-->
+<div th:replace="commons/bar::footer"></div>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

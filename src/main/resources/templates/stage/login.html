@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"	xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>在线考试系统前台</title>
+    <!-- Bootstrap core CSS -->
+<!--    <link href="#" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">-->
+
+<!--    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css?h=3a470b077af1acaa053e6b67bb7560eb">-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="assets/css/Features-Blue.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Projects-Clean.css">
+
+</head>
+<body>
+<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
+    <div class="container">
+        <a class="navbar-brand logo" href="#"  th:href="@{/}">在线考试系统</a>
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link active" role="button" th:href="@{prexam/toAddStudent}" disabled="">现在注册</a></li>
+                <li class="nav-item"><a class="nav-link active" th:href="@{/backLogin}">切换后台登录</a></li>
+                <!--                <a th:href="@{/backLogin}"><button class="btn btn-lg btn-danger" type="submit">切换后台登录</button></a>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">-->
+<!--    <div class="container">-->
+<!--        <a class="navbar-brand logo" href="#">在线考试系统</a>-->
+<!--        <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav">-->
+<!--            <span class="sr-only">Toggle navigation</span>-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+<!--        <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--            <ul class="nav navbar-nav ml-auto">-->
+<!--                <li class="nav-item"><a class="nav-link active" data-toggle="tooltip" data-placement="top" title="请登录" >首页</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link active" data-toggle="tooltip" data-placement="top" title="请登录" th:href="@{foreLogin}">考试</a></li>-->
+<!--                <li class="nav-item"><a class="nav-link active" data-toggle="tooltip" data-placement="top" title="请登录" th:href="@{foreLogin}">记录</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<main class="page contact-page">
+    <section class="portfolio-block contact">
+
+        <div class="login-clean" style="background: rgba(252,241,241,0);">
+            <form action="LoginServlet" th:action="@{/foreLogin/check}" method="post">
+                <div class="illustration"><i class="far fa-user" style="color: rgb(14,160,255);"></i></div>
+                <div class="form-group">
+                    <input type="text" id="username" class="form-control" required autofocus name="studentAccount" placeholder="用户名" />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" placeholder="密码" required name="studentPwd"/>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="button" style="background: rgb(14,160,255);" onclick="dologin()">登录</button>
+                </div>
+            </form>
+
+    <script src="assets/js/core/jquery.3.2.1.min.js" th:src="@{/webjars/jquery/3.2.1/jquery.js}"></script>
+    <script src="bootstrap/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}"></script>
+    <script th:src="@{/webjars/layer/src/layer.js}"></script>
+    <script>
+        function dologin() {
+            var username = $("#username").val();
+            if (username == "") {
+                layer.msg("用户不能为空！", {time:2000, icon:5, shift:6}, function () {
+                });
+                return;
+            }
+            var password = $("#password").val();
+            if (password == "") {
+                layer.msg("密码不能为空！", {time:2000, icon:5, shift:6}, function(){
+                });
+                return;
+            }
+            /* $("#loginForm").submit(); */
+            var loadingIndex;
+            $.post({
+                type:"POST",
+                url:"/foreCheck/check",
+                data:{
+                    "studentAccount":username,
+                    "studentPwd":password
+                },
+                //加载图标
+                beforeSend:function(){
+                    loadingIndex = layer.msg('处理中', {icon: 16});
+                },
+                success:function(result){
+                    console.log(result)
+                    layer.close(loadingIndex);
+                    if(result.success){
+                        window.location.href="indexprexam";
+                    }else{
+                        layer.msg("用户名或密码错误！", {time:2000, icon:5, shift:6}, function(){});
+                    }
+                }
+            });
+            return false;
+
+        }
+    </script>
+</div>
+    </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+<script src="assets/js/theme.js"></script>
+</body>
+</html>
